@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Butterfly Lifecycle Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0fff4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: #2e7d32;
+      margin-bottom: 30px;
+    }
+
+    .lifecycle-container {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      border-radius: 15%;
+      overflow: visible;
+      margin: 0 auto;
+    }
+
+    .stage {
+      position: absolute;
+      font-size: 10rem;
+      color: #4caf50;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      text-align: center;
+    }
+
+    .stage img {
+      width: 3000px;
+      height: auto;
+    }
+
+    .timer {
+      font-size: 2rem;
+      color: #00796b;
+      margin-top: 30px;
+    }
+
+    @keyframes flyAway {
+      0% {
+        transform: translate(0, 0);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(500px, -300px);
+        opacity: 0;
+      }
+    }
+
+    .flying {
+      animation: flyAway 3s forwards;
+    }
+
+    /* Keyframes to make the stages rotate in a circle */
+    .circle-movement {
+      animation: moveInCircle 20s infinite linear;
+    }
+
+    @keyframes moveInCircle {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Lifecycle of a Butterfly</h1>
+  <div class="lifecycle-container circle-movement">
+    <div class="stage" id="stage1">🥚</div>
+    <div class="stage" id="stage2">🐛</div>
+    <div class="stage" id="stage3">🥜</div>
+    <div class="stage" id="stage4">🦋</div>
+  </div>
+  
+  <div class="timer" id="timer">Time since stage started: 0s</div>
+
+  <script>
+    const stages = [
+      "🥚",
+      "🐛",
+      "🥜",
+      "🦋"
+    ];
+
+    let currentStage = 0;
+    let time = 0;
+
+    const stageElements = [
+      document.getElementById('stage1'),
+      document.getElementById('stage2'),
+      document.getElementById('stage3'),
+      document.getElementById('stage4')
+    ];
+
+    const timerElement = document.getElementById('timer');
+
+    function showStage(index) {
+      // Reset opacity for all stages
+      stageElements.forEach(stage => stage.style.opacity = 0);
+
+      // Set current stage opacity to 1 (visible)
+      stageElements[index].style.opacity = 1;
+    }
+
+    // Start showing stages
+    showStage(currentStage);
+    currentStage++;
+
+    // Timer every second
+    setInterval(() => {
+      time++;
+      timerElement.textContent = `Time since stage started: ${time}s`;
+    }, 1000);
+
+    // Cycle every 5 seconds
+    setInterval(() => {
+      showStage(currentStage);
+      currentStage = (currentStage + 1) % stages.length;
+    }, 5000);
+  </script>
+
+</body>
+</html>
